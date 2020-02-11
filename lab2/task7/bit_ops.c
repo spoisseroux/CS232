@@ -1,19 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Note, the bits are counted from right to left. 
+// Note, the bits are counted from right to left.
 // Return the bit states of x within range of [start, end], in which both are inclusive.
 // Assume 0 <= start & end <= 31
-unsigned * get_bits(unsigned x,
+void get_bits(unsigned x,
                  unsigned start,
-                 unsigned end) {
+                 unsigned end,
+         unsigned * a) {
+    unsigned i;
+    unsigned mask = 1;
     
-   return NULL;
+    x = x>>start; //start can be zero or 1
+    for (i=0; i <= (end - start); i++) {
+        if ((x & mask) == 1) {
+            a[i] = 1;
+            x = x>>1;
+        } else {
+            a[i] = 0;
+            x = x>>1;
+        }
+    }
+    return;
     // YOUR CODE HERE
     // Returning NULL is a placeholder
-    // get_bits dynamically allocates an array a and set a[i] = 1 when (i+start)-th bit
-    // of x is 1, otherwise siet a[i] = 0;
-    // At last, get_bits returns the address of the array.
+    // get_bits receives an array a from caller and set a[i] = 1 when (i+start)-th bit
+    // of x is 1, otherwise set a[i] = 0;
 }
 
 // Set the bits of x within range of [start, end], in which both are inclusive
@@ -22,6 +34,17 @@ void set_bits(unsigned * x,
              unsigned start,
              unsigned end,
              unsigned *v) {
+    unsigned mask;
+    unsigned i;
+    
+    for (i=0; i <= (end - start); i++) {
+        mask = 1<<(start + i);
+        if (v[i] == 0) {
+            *x = *x & ~(mask);
+        } else {
+            *x = *x | mask;
+        }
+    }
     // YOUR CODE HERE
     // No return value
     // v points to an array of at least (end-start+1) unsigned integers.
@@ -34,6 +57,14 @@ void flip_bits(unsigned * x,
               unsigned start,
               unsigned end) {
     // YOUR CODE HERE
+    
+    unsigned mask;
+    unsigned i;
+    
+    for (i=0; i <= (end - start); i++) {
+        mask = 1<<(start + i);
+        *x = *x ^ mask;
+    }
 }
 
 
@@ -46,8 +77,8 @@ void flip_bits(unsigned * x,
  * elements in the arrays are equal.
  */
 int array_equals(unsigned *arr1,
-		unsigned *arr2,
-		unsigned size) {
+        unsigned *arr2,
+        unsigned size) {
 
    int i;
    for (i = 0; i < size; i++) {
@@ -64,7 +95,7 @@ int array_equals(unsigned *arr1,
  * is only 0 or 1.
  */
 void print_unsigned_array(unsigned *arr1,
-		        unsigned size) {
+                unsigned size) {
 
     printf("0b");
     unsigned i;
@@ -75,34 +106,34 @@ void print_unsigned_array(unsigned *arr1,
 
 void test_get_bits(unsigned x,
                   unsigned s,
-		  unsigned e,
+          unsigned e,
                   unsigned * expected) {
-    unsigned* a = get_bits(x, s, e);
+    unsigned a[32];
+    get_bits(x, s, e, a);
     if(!array_equals(a, expected, e - s + 1)) {
         printf("get_bits(0x%08x,%u,%u): ",x,s,e);
-	print_unsigned_array(a, e - s + 1);
-	printf(", expected ");
-	print_unsigned_array(expected, e - s + 1);
-	printf("\n");
+    print_unsigned_array(a, e - s + 1);
+    printf(", expected ");
+    print_unsigned_array(expected, e - s + 1);
+    printf("\n");
     } else {
         printf("get_bits(0x%08x,%u,%u): ",x,s,e);
-	print_unsigned_array(a, e - s + 1);
-	printf(", correct\n");
+    print_unsigned_array(a, e - s + 1);
+    printf(", correct\n");
     }
-    free(a);
 }
 
 void test_set_bits(unsigned x,
                   unsigned s,
-		  unsigned e,
+          unsigned e,
                   unsigned * v,
                   unsigned expected) {
     unsigned o = x;
     set_bits(&x, s, e, v);
     if(x!=expected) {
         printf("set_bits(0x%08x,%u,%u,",o,s,e);
-	print_unsigned_array(v, e - s + 1);
-	printf("): 0x%08x, expected 0x%08x\n",x,expected);
+    print_unsigned_array(v, e - s + 1);
+    printf("): 0x%08x, expected 0x%08x\n",x,expected);
     } else {
         printf("set_bits(0x%08x,%u,%u,%u): 0x%08x, correct\n",o,s,e,*v,x);
     }
@@ -110,7 +141,7 @@ void test_set_bits(unsigned x,
 
 void test_flip_bits(unsigned x,
                    unsigned s,
-		   unsigned e,
+           unsigned e,
                    unsigned expected) {
     unsigned o = x;
     flip_bits(&x, s, e);
