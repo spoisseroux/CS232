@@ -1,0 +1,10 @@
+Midpoint_A changed to avoid overflow by making x (presumed to be the lower int) to be subtracted by y (presumed to be the greater int) to help avoid calculations that involve negative numbers thus helping avoid overflow. For overflow to occur y must be less than x. The result will be one greater than the expect result.
+
+Midpoint_B shifts the sum of x and y right 1 to avoid overflow.
+Midpoint_B will never accept negative integers because of its use of unsigned ints.
+The result will be 2147483645
+
+I used 16 and 5 to fail midpoint_A test. It failed because 16 is 0b0001 0000 and 5 is 0b0000 0101 so the midpoint of 16 and 5 is expected to be 0b0000 1010. However, midpoint_A failed when it computes [y-x] because its result is [0b0001 0000 - 0b0000 1010 = 0b0000 1011]. 
+
+I used -5 and -7 to fail midpoint_B test. It failed because -5 is 0b1000 0101 and -7 is 0b1000 0111 so the midpoint of -5 and -7 is expected to be 0b1000 0110. However, midpoint_B failed when it computes [y-x] because its result is [0b1000 0101 - 0b1000 0111 = 0b1111111111111111111111111111101]. 
+
