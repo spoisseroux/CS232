@@ -56,10 +56,16 @@ int main(void)
 
 	int n = 7;
 	printf("main : m=%d, n=%d\n", m, n);
+    //main : m=1, n=7
 	U(n);
+    //U : m=7, n=7
 	printf("main : m=%d, n=%d\n", m, n);
+    //main : m=7, m=7
 	A();
+    //global m=5
+    //A: m=3
 	printf("main : m=%d, n=%d\n\n\n", m, n);
+    //main : m=5, n=7
 
 	// -------------------------------------------------
 	// Below is a block, which may declare its own local
