@@ -11,8 +11,8 @@ void CS232(char* src, int srcLength) {
      char replacement[15] = "232 is awesome!";
      srcptr = src;
      replaceptr = replacement;
-     if (srcLength <= 15) {
-         for (int i = 0; i <= 15; i++)
+     if (srcLength < 15) {
+         for (int i = 0; i < 15; i++)
 	      *srcptr++ = *replaceptr++;
      }
 }
@@ -20,6 +20,7 @@ void CS232(char* src, int srcLength) {
 char * replace_string() {
     //char str[15];
     char *str = (char*)malloc(15*sizeof(char));
+    free(str);
     CS232(str, strlen(str));
     return str;
 
