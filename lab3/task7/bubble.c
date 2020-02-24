@@ -10,6 +10,7 @@
 
 //only working on chars now
 
+
 int main()
 {
   char Strings[NUM][LEN];
