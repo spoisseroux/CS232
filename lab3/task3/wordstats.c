@@ -6,10 +6,10 @@ int main () {
 
   /* Zero out the array */
   //int letter_frequency[26] = {0};
-  int len, i;
-    int acount, bcount, ccount, dcount, ecount, fcount, gcount, hcount, icount, jcount, kcount, lcount, mcount, ncount, ocount, pcount, qcount, rcount,
-        scount, tcount, ucount, vcount, wcount, xcount,
-        ycount, zcount;
+  int i;
+    int acount = 0, bcount = 0, ccount= 0, dcount= 0, ecount= 0, fcount= 0, gcount= 0, hcount= 0, icount= 0, jcount= 0, kcount= 0, lcount= 0, mcount= 0, ncount= 0, ocount= 0, pcount= 0, qcount= 0, rcount= 0,
+        scount= 0, tcount= 0, ucount= 0, vcount= 0, wcount= 0, xcount= 0,
+        ycount= 0, zcount= 0 ;
   char buf[MAX_BUF];
 
     printf("Enter for word stats: \n");
