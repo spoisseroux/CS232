@@ -8,7 +8,7 @@
 #define NUM 30
 #define LEN 1200  /* max length of each string */
 
-//only working on chars now
+//bubble sort not working
 
 
 int main()
@@ -50,18 +50,21 @@ int main()
     char temp2[NUM][LEN];
     
     for (int x = 0; x<LEN; x++) {
-    for (int i = 0; i<NUM-1; i++) {
-        for (int j = 0; j < LEN; j++) {
-            if (Strings[i][j] > Strings[i+1][j]) {
-                temp1[i][j] = Strings[i][j];
-                temp2[i][j] = Strings[i+1][j];
-                Strings[i][j] = temp2[i][j];
-                Strings[i+1][j] = temp1[i][j];
-                //swap
+    for (int i = NUM; i>0; i--) {
+        for (int j=0; j<NUM-i; j++) {
+            if (Strings[i-1][j] > Strings[i][j]) {
+                for (int y=0; y<LEN; y++) {
+                    temp1[i][y] = Strings[i][y];
+                    temp2[i][y] = Strings[i-1][y];
+                    Strings[i][y] = temp2[i][y];
+                    Strings[i-1][y] = temp1[i][y];
+                    //swap
+                }
             }
         }
     }
     }
+
     
     //print final strings
     for (int i =0; i<NUM; i++){
