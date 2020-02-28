@@ -2,11 +2,13 @@
 #include <stdlib.h>
 int * makearray(int size,int base){
 
-  int array[size];
+  int *array; //was not dynamically allocated before
+    array = calloc(size, sizeof(int));
   int j;
 
-  for(j=0;j<size;j++)
-    array[j] = base*=2; //doubling base
+    for(j=0;j<size;j++) {
+        array[j] = base*=2; //doubling base
+    }
 
   return array;
 }
@@ -29,4 +31,7 @@ int main(){
   printf("\n");
 
   printf("SUM: %d\n", sum);
+    
+    free(a1);
+    free(a2);
 }
