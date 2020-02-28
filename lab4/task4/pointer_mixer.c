@@ -74,6 +74,7 @@ void strlen_vs_sizeof() {
     char * s = str;
 
     printf("strlen(str):%d sizeof(str):%d sizeof(str2):%d sizeof(s):%d, sizeof(*s):%d\n",
+           //strlen(str): 6 sizeof(str): 7 sizeof(str2): 8 sizeof(s): 4
          (int) strlen(str),  //the length of the str
          (int) sizeof(str),  //the memory size of the str
          (int) sizeof(str2),  //the memory size of the str2
@@ -98,10 +99,15 @@ void pointer_math() {
     char str[] = "Hello!";
     //pointer arithmetic consideration of typing
     printf("a[3]:%d str[3]:%c\n", *(a+3),*(str+3));
+    // a[3]: 3 str[3]: l
     // I know you would not know what the actual addresses are, just comment
     // what you think (a+3-a) and (str+3-str) are.
     printf("a=%p a+3=%p (a+3-a)=%ld\n",a,a+3, ((long) (a+3)) - (long) a);
+    //a = address of a[0]?
+    //a+3 = address of a[3]?
+    //(a+3-a)= address of a[3]?
     printf("str=%p str+3=%p (str+3-str)=%ld\n",str,str+3, ((long) (str+3)) - (long) str);
+    //str = str[0] str+3 = address of str[3] (str+3-str)= address of str[3]
 }
 // ----------------------------------------------------------------------------
 
@@ -115,7 +121,9 @@ void pointer_casting() {
     	       //we can store any arbitrary data here
 
     int * i = (int *) s;  //cast s to an integer pointer
-    printf("*i = %d\n", *i); 
+    printf("*i = %d\n", *i);
+    //because 255 is the max value for one byte and char is one byte maybe *i = 1
+    
     //use characters as a generic container for data and then used pointer casting 
     //to determine how to interpret that data. char array is an arbitrary container
     //that stores a bunch of bytes.
@@ -130,6 +138,7 @@ void byte_ordering() {
   printf("0x");
   for(i=0;i<4;i++){
     printf("%02x",p[i]);
+      //address of int a
   }
   printf("\n");
 }
@@ -173,7 +182,9 @@ darray ---> | --+-'        '---'---'---'---'
     // adarray equals to &darray[0] which equals to &(&array[0])
     // a double array is a double pointer
     printf("*(*(darray+2)+2) = %d\n", *(*(darray+2)+2));
+    //content of darray[2][2]
     printf("     daray[2][2] = %d\n", darray[2][2]);
+    //content of darray[2][2]
 }
 // ----------------------------------------------------------------------------
 void string_double_array_pointer_array() {
@@ -182,7 +193,9 @@ void string_double_array_pointer_array() {
     char * str2 = "This is also a locust tree"; //str2 is a pointer to char
 
     printf("str1:%p\n",str1);
+    //address of str1 will be higher as its earlier the str2
     printf("str2:%p\n",str2); //which is at the higer address? why?
+    //address of str2
                               //check the memory layout of your process 
                               //what lays at the bottom?
     //this is an array of strings, each string is a char *	
@@ -193,9 +206,12 @@ void string_double_array_pointer_array() {
     int i;
 
     printf("strings: %p\n",strings); //higher address or lower address? why?
+    //higher address, it was called latest in the stack
     for(i=0;i<4;i++){
       printf("strings[%d]: '%s' %p\n",i,strings[i],strings[i]);
       //are they in higher address or lower address? why?
+        //i is highest, strings[i] is lowest
+        //strings and their addresses
   }
 }
 // ----------------------------------------------------------------------------
@@ -211,6 +227,7 @@ void string_equal() {
         printf("Beat CUNY!\n");
     }else {
         printf("Crash SUNY!\n");
+        //this will be printed
     }
     printf("\n");
     printf("s1: %p == s2: %p? \n", s1, s2);
@@ -226,17 +243,28 @@ void trace_pointers() {
     int *t = &a;
     int *u = NULL;
     printf("%d %d\n", a, *t);
+    //42, 42
+    
 
     c = b;
+    //7
     u = t;
+    //42
     printf("%d %d\n", c, *u);
+    //7, 42
+    
 
     a = 8;
+    //both u and t point to this
     b = 8;
     printf("%d %d %d %d\n", b, c, *t, *u);
+    //8, 7, 8, 8
 
     *t = 123;
+    //changes value of a! there t and u also
     printf("%d %d %d %d %d\n", a, b, c, *t, *u);
+    //123, 8, 7, 123, 123
+    
 }
 
 // ----------------------------------------------------------------------------
@@ -248,30 +276,36 @@ typedef struct {
 
 static void foo(stuff_t value)
 {
-    *(value.a) = 2;
+    *(value.a) = 2; //temp=2
+    //updating a's pointee to be 2
     value.b = 3;
 }
 
 static void bar(stuff_t *value)
 {
-    *(value->a) = 4;
-    value->b = 5;
+    //using pass by reference
+    *(value->a) = 4; //value->a -> (*value).a
+    value->b = 5; //(*value.b = 5
 }
 
 void trace_structs_pointers()
 {
-    stuff_t my_stuff;
+    stuff_t my_stuff; //on stack
     int temp = 0;
 
     my_stuff.a = &temp;
     my_stuff.b = 1;
     printf("a=%d b=%d\n", *(my_stuff.a), my_stuff.b);
+    //a=0 b=1
 
     foo(my_stuff);
     printf("a=%d b=%d\n", *(my_stuff.a), my_stuff.b);
+    //a=2 b=1
 
-    bar(&my_stuff);
+    bar(&my_stuff); //you have a pointer to the struct
+    // you can mutates all the in it
     printf("a=%d b=%d\n", *(my_stuff.a), my_stuff.b);
+    //a=4 b=5
 }
 
 // ----------------------------------------------------------------------------
@@ -281,7 +315,9 @@ void readonly_vs_stack() {
 
   str1[0] = 't';
   printf("str1: %s \n",str1);
+    //str1: this is a locust tree
   str2[0] = 't';
   printf("str2: %s \n",str2);
+    //address of str2?
 }
 
