@@ -11,9 +11,9 @@ node_t * construct_3_strs() {
     struct node * y;
     struct node * z;
     
-    x = calloc(sizeof(char), 7);
-    y = calloc(sizeof(char), 4);
-    z = calloc(sizeof(char), 9);
+    x = calloc(7, sizeof(char));
+    y = calloc(4, sizeof(char));
+    z = calloc(9, sizeof(char));
     
     x->value = "CS232";
     y->value = "is";
