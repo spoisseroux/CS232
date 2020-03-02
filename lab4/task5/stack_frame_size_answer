@@ -1,0 +1,6 @@
+"whenever a stack function is invoked, a stack frame that contains
+all the local variables of the function is created for it and then
+pushed into stack memory..." This allows me to deduce that the size of the 
+stack frame for this function will be the value of Stop + 1(because the 
+function starts at zero) + 1 (because of the main stack); so the total
+stack frame size may be the value of Stop + 2.

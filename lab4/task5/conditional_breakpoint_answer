@@ -1,0 +1,2 @@
+when start == 582, sum will be equal to the summation of 0 to 582 (according
+to function code), so sum = 169653 when start == 582.
