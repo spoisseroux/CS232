@@ -8,7 +8,6 @@ int main () {
     //init
     FILE *file_ptr;
     char ch;
-    int i;
     int charc = 0;
     int wordsc = 0;
     int linesc = 0;
