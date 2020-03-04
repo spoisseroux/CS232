@@ -4,7 +4,41 @@
 typedef struct snode node_t;
 
 node_t * setup() {
-    //TODO:copy setup func from task2
+    //TODO:head declared for you
+     //node_t * head;
+     
+     //Allocate three more pointers
+     //head for the first Node, and temporary pointers node1, node2 and node3
+     node_t * node1;
+     node_t * node2;
+     node_t * node3;
+     
+     
+     //Allocate three node pointees and store references to them in the three pointers
+     
+     node1 = calloc(1, sizeof(char));
+     node2 = calloc(1, sizeof(char));
+     node3 = calloc(1, sizeof(char));
+     
+     //Dereference each pointer to store the appropriate number and string into the length and str fields in its pointee.
+     
+     node1->length = 5;
+     strcpy(node1->str, "hello");
+     
+     node2->length = 5;
+     strcpy(node2->str, "there");
+     
+     node3->length = 4;
+     strcpy(node3->str, "prof");
+
+     
+     //Dereference each pointer to access the .next field in its pointee,
+     //and use pointer assignment to set the .next field to point to the appropriate Node.
+    
+     node1->next = node2;
+     node2->next = node3;
+     
+    return node1;
 }
 
 void teardown(/*what parameter?*/) {
@@ -13,24 +47,52 @@ void teardown(/*what parameter?*/) {
     //You are not allowed to use globals
 }
 
-void add(node_t ** head, char * str, int length){
-    //TODO: copy add func from task2
+void add(node_t * head, char * str, int length){
+    node_t * new;
+    new = calloc(1, sizeof(char));
+    new->next = head->next;
+    strcpy(new->str, head->str);
+    new->length = head->length;
+    head->next = new;
+    head->length = length;
+    free(head);
+    head = calloc(1, sizeof(char));
+    strcpy(head->str, str);
 }
-void delete_node_at(node_t ** head, int idx) {
+void delete_node_at(node_t * head, int idx) {
     //TODO: implement delete a node based on index
 	//deletes a node at index idx, which ranges from zero to the length of the list - 1.
+    
+    //loop thru until get to until
+    //each loop goes to next node
+    for (int i = 0; i < idx; i++) {
+        head = head->next;
+        free(head);
+    }
+    
+    head->str[0] = 0; //empty str
+    
 } 
-void delete_node_key(node_t * *head, char * key) {
+void delete_node_key(node_t * head, char * key) {
     //TODO: implement delete a node based on key
-	//given a certain key, find and delete. 
+	//given a certain key, find and delete.
+    
+    while (head != NULL) {
+        if (strcmp(head->str, key) == 0) {
+            head->str[0] = 0;
+            free(head);
+            break;
+        }
+        head = head->next;
+    }
 }
 //You can ignore the following code for testing
 void dump_all(node_t*);
 int main (int argc, char ** argv) {
     node_t * head = setup();
-    add(&head, "hi", 2);
-    delete_node_key(&head, "prof");
-    delete_node_at(&head, 0);
+    add(head, "hi", 2);
+    delete_node_key(head, "prof");
+    delete_node_at(head, 0);
     dump_all(head);
     teardown(/*what argument?*/);
     return 0;
