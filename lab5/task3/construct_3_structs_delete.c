@@ -41,10 +41,11 @@ node_t * setup() {
     return node1;
 }
 
-void teardown(/*what parameter?*/) {
+void teardown(/* what parameter */) {
     //TODO: free all dynamic memory you requested.
     //Please complete the prototype of teardown.
     //You are not allowed to use globals
+    
 }
 
 void add(node_t * head, char * str, int length){
@@ -59,42 +60,58 @@ void add(node_t * head, char * str, int length){
     head = calloc(1, sizeof(char));
     strcpy(head->str, str);
 }
-void delete_node_at(node_t * head, int idx) {
+void delete_node_at(node_t ** head, int idx) {
     //TODO: implement delete a node based on index
 	//deletes a node at index idx, which ranges from zero to the length of the list - 1.
     
-    //loop thru until get to until
-    //each loop goes to next node
-    for (int i = 0; i < idx; i++) {
-        head = head->next;
-        free(head);
+    if (idx == 0) {
+        node_t *new_head = (*head)->next;
+        free(*head);
+        (*head) = new_head;
     }
     
-    head->str[0] = 0; //empty str
-    
-} 
-void delete_node_key(node_t * head, char * key) {
+    for (int i = 0; i < idx; i++) {
+        if (i == (idx-1)) {
+            (*head)->next = (*head)->next->next;
+            free((*head)->next);
+        }
+        head = &(*head)->next;
+    }
+}
+
+void delete_node_key(node_t ** head, char * key) {
     //TODO: implement delete a node based on key
 	//given a certain key, find and delete.
     
-    while (head != NULL) {
-        if (strcmp(head->str, key) == 0) {
-            head->str[0] = 0;
-            free(head);
+    int idx = 0;
+    node_t * cur = *head;
+    
+    for (int i = 0; i < 1000; i++) {
+        if (strcmp(cur->str, key) == 0) {
+            idx = i;
             break;
         }
-        head = head->next;
+        cur = cur->next;
+    }
+    
+    for (int i = 0; i < idx; i++) {
+        if (i == (idx-1)) {
+            (*head)->next = (*head)->next->next;
+            free((*head)->next);
+        }
+        head = &(*head)->next;
     }
 }
+
 //You can ignore the following code for testing
 void dump_all(node_t*);
 int main (int argc, char ** argv) {
     node_t * head = setup();
     add(head, "hi", 2);
-    delete_node_key(head, "prof");
-    delete_node_at(head, 0);
+    delete_node_key(&head, "prof");
+    delete_node_at(&head, 0);
     dump_all(head);
-    teardown(/*what argument?*/);
+    teardown(/* what parameter */);
     return 0;
 }
 
