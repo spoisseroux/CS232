@@ -16,9 +16,9 @@ node_t * setup() {
     
     //Allocate three node pointees and store references to them in the three pointers
     
-    node1 = calloc(1, sizeof(char));
-    node2 = calloc(1, sizeof(char));
-    node3 = calloc(1, sizeof(char));
+    node1 = (node_t*)malloc(sizeof(char));
+    node2 = (node_t*)malloc(sizeof(char));
+    node3 = (node_t*)malloc(sizeof(char));
     
     //Dereference each pointer to store the appropriate number and string into the length and str fields in its pointee.
     
@@ -41,15 +41,14 @@ node_t * setup() {
    return node1;
 }
 
-void teardown(node_t * head) {
+void teardown(/* what parameter */) {
     //TODO: free all dynamic memory you requested.
     //Please complete the prototype of teardown.
     //You are not allowed to use globals
-    free(head);
     
 }
 
-void add(node_t * head, char * str, int length){
+void add(node_t ** head, char * str, int length){
     //TODO: implement add to add a new node to front, pointed by head
     
     //set head to new values
@@ -57,24 +56,24 @@ void add(node_t * head, char * str, int length){
     //point head to new
     
     node_t * new;
-    new = calloc(1, sizeof(char));
-    new->next = head->next;
-    strcpy(new->str, head->str);
-    new->length = head->length;
-    head->next = new;
-    head->length = length;
-    free(head);
-    head = calloc(1, sizeof(char));
-    strcpy(head->str, str);
+    new = (node_t*)malloc(sizeof(char));
+    new->next = (*head)->next;
+    strcpy(new->str, (*head)->str);
+    new->length = (*head)->length;
+    (*head)->next = new;
+    (*head)->length = length;
+    free(*head);
+    *head = (node_t*)malloc(sizeof(char));
+    strcpy((*head)->str, str);
 }
 
 //You can ignore the following code for testing
 void dump_all(node_t*);
 int main (int argc, char ** argv) {
     node_t * head = setup();
-    add(head, "hi", 2);
+    add(&head, "hi", 2);
     dump_all(head);
-    teardown(head);
+    teardown(/* what parameter */);
     return 0;
 }
 
@@ -84,8 +83,6 @@ void dump_all(node_t * head) {
     while(cur != NULL) {
         printf("%s ", cur->str);
         cur = cur->next;
-        teardown(cur);
     }
-    teardown(cur);
     printf("\ndone\n ");
 }
