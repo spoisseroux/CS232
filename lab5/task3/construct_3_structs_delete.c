@@ -37,14 +37,22 @@ node_t * setup() {
     
      node1->next = node2;
      node2->next = node3;
+    
      
     return node1;
 }
 
-void teardown(/* what parameter */) {
+void teardown(node_t * head) {
     //TODO: free all dynamic memory you requested.
     //Please complete the prototype of teardown.
     //You are not allowed to use globals
+
+    while (head != NULL)
+    {
+        node_t* temp = head;
+        head = head->next;
+        free(temp);
+    }
     
 }
 
@@ -79,11 +87,13 @@ void delete_node_at(node_t ** head, int idx) {
     
     for (int i = 0; i < idx; i++) {
         if (i == (idx-1)) {
-            (*head)->next = (*head)->next->next;
-            free((*head)->next);
+            node_t * toDel = (*head)->next;
+            (*head)->next = toDel->next;
+            free(toDel);
         }
         head = &(*head)->next;
     }
+    return;
 }
 
 void delete_node_key(node_t ** head, char * key) {
@@ -103,11 +113,14 @@ void delete_node_key(node_t ** head, char * key) {
     
     for (int i = 0; i < idx; i++) {
         if (i == (idx-1)) {
-            (*head)->next = (*head)->next->next;
-            free((*head)->next);
+            
+            node_t * toDel = (*head)->next;
+            (*head)->next = toDel->next;
+            free(toDel);
         }
         head = &(*head)->next;
     }
+    return;
 }
 
 //You can ignore the following code for testing
@@ -118,7 +131,7 @@ int main (int argc, char ** argv) {
     delete_node_key(&head, "prof");
     delete_node_at(&head, 0);
     dump_all(head);
-    teardown(/* what parameter */);
+    teardown(head);
     return 0;
 }
 
