@@ -1,5 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
 #include "snode.h"
 typedef struct snode node_t;
 
@@ -9,9 +7,9 @@ node_t * setup() {
     
     //Allocate three more pointers
     //head for the first Node, and temporary pointers node1, node2 and node3
-    node_t * node1;
-    node_t * node2;
-    node_t * node3;
+    node_t * node1 = NULL;
+    node_t * node2 = NULL;
+    node_t * node3 = NULL;
     
     
     //Allocate three node pointees and store references to them in the three pointers
@@ -41,10 +39,17 @@ node_t * setup() {
    return node1;
 }
 
-void teardown(/* what parameter */) {
+void teardown(node_t * head) {
     //TODO: free all dynamic memory you requested.
     //Please complete the prototype of teardown.
     //You are not allowed to use globals
+
+    while (head != NULL)
+    {
+        node_t* temp = head;
+        head = head->next;
+        free(temp);
+    }
     
 }
 
@@ -73,7 +78,7 @@ int main (int argc, char ** argv) {
     node_t * head = setup();
     add(&head, "hi", 2);
     dump_all(head);
-    teardown(/* what parameter */);
+    teardown(head);
     return 0;
 }
 
