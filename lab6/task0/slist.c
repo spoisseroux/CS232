@@ -28,28 +28,6 @@ struct slist *slist_create() {
 
 
 
-struct snode* slist_add_back_int(struct slist *l, int i) {
-    //init OK
-    struct snode * p = l->front;
-    struct snode* addBack = snode_create(&i);
-    
-    
-    while(p->next != l->back) {
-        //puts("were in while");
-        p = p->next;
-    }
-    
-    if (p->next == l->back) {
-        //puts("were in if");
-        p->next = addBack;
-        addBack->next = l->back;
-    }
-    
-    //printf("%d \n", *((int*)addBack->data));
-    
-    return addBack;
-}
-
 
 
 
@@ -60,11 +38,11 @@ struct snode* slist_add_back_int(struct slist *l, int i) {
  * @param str pointer to a C string to store in new list node
  * returns a pointer to the newly added node
  */
-struct snode* slist_add_back(struct slist *l, void *s){
+struct snode* slist_add_back(struct slist *l, char *str){
 
     //init OK
     struct snode * p = l->front;
-    struct snode* addBack = snode_create(s);
+    struct snode* addBack = snode_create(str);
     
     
     while(p->next != l->back) {
@@ -77,6 +55,7 @@ struct snode* slist_add_back(struct slist *l, void *s){
         p->next = addBack;
         addBack->next = l->back;
     }
+    
     return addBack;
 };
 
@@ -93,10 +72,10 @@ struct snode* slist_add_back(struct slist *l, void *s){
  * @param str pointer to a C string to store in new list node
  * returns a pointer to the newly added node
  */
-struct snode* slist_add_front(struct slist *l, void *s){
+struct snode* slist_add_front(struct slist *l, char *str){
     
     //init OK
-    struct snode* addFront = snode_create(s);
+    struct snode* addFront = snode_create(str);
     addFront->next = l->front->next;
     l->front->next = addFront;
 
@@ -116,11 +95,11 @@ struct snode* slist_add_front(struct slist *l, void *s){
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
  */
-struct snode* slist_find(struct slist *l, void *s){
+struct snode* slist_find(struct slist *l, char *str){
     struct snode * p = l->front;
     p = p->next;
     
-    while(strcmp(p->data, s) != 0) {
+    while(strcmp(p->str, str) != 0) {
         if (p == l->back) {
             return NULL;
         }
@@ -150,28 +129,8 @@ void slist_destroy(struct slist *l){
 
 
 
-void printing(void* p, int i) {
-    
-    //if char
-    if (sizeof(*p) == sizeof(char)) {
-        printf("%c", *((char*)p) + i);
 
-    }
-        
-    //if int
-    else if (sizeof(*p) == sizeof(int)) {
-        printf("%d", *((int*)p) + i);
 
-    }
-        
-    //if long
-    else if (sizeof(*p) == sizeof(float)) {
-        printf("%f", *((float*)p) + i);
-
-    }
-    
-    
-}
 
 
 /**
@@ -185,7 +144,7 @@ void slist_traverse(struct slist *l){
     
     while(p != l->back) {
         //puts("were in while");
-        printf("%s \n", p->data);
+        printf("%s \n", p->str);
         p = p->next;
     }
     
@@ -230,12 +189,12 @@ uint32_t slist_length(struct slist *l){
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
  */
-struct snode* slist_delete(struct slist *l, void *s){
+struct snode* slist_delete(struct slist *l, char *str){
     struct snode * p = l->front;
     p = p->next;
     int count = 0;
     
-    while(strcmp(p->data, s) != 0) {
+    while(strcmp(p->str, str) != 0) {
         if (p == l->back) {
             return NULL;
         }
@@ -252,7 +211,7 @@ struct snode* slist_delete(struct slist *l, void *s){
     p->next = p->next->next;
     
     toDel->next = NULL;
-    free(toDel->data);
+    free(toDel->str);
     free(toDel);
     
     
@@ -260,14 +219,24 @@ struct snode* slist_delete(struct slist *l, void *s){
 };
 
 struct snode * slist_get_front(struct slist * s){
-    
-    
-    
+    if (s->front->next == s->back) {
+        return NULL;
+    } else {
+        return s->front->next;
+    }
 };
 
 struct snode * slist_get_back(struct slist * s){
     
-    
-    
+    if (s->front->next == s->back) {
+        return NULL;
+    } else {
+        struct snode * p = s->front;
+        while(p->next != s->back) {
+            //puts("were in while");
+            p = p->next;
+        }
+        return p;
+    }
     
 };
