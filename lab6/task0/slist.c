@@ -11,7 +11,7 @@ struct slist *slist_create() {
     
     struct snode* head = snode_create("front");
     struct snode* tail = snode_create("back");
-    struct slist* newList = (struct slist*)malloc(sizeof(struct slist*));
+    struct slist* newList = (struct slist*)malloc(sizeof(struct slist));
     
     newList->front = head;
     newList->back = tail;
@@ -122,9 +122,21 @@ struct snode* slist_find(struct slist *l, char *str){
  * @param l pointer tot he list
  */
 void slist_destroy(struct slist *l){
+    
+    struct snode * p = l->front;
+    struct snode * tmp;
+    p = p->next;
+    
+    while(p != l->back) {
+        tmp = p;
+        p = p->next;
+        snode_destroy(tmp);
+    }
+    
     free(l->front);
     free(l->back);
     free(l);
+    
 };
 
 
@@ -197,6 +209,7 @@ struct snode* slist_delete(struct slist *l, char *str){
     while(strcmp(p->str, str) != 0) {
         if (p == l->back) {
             return NULL;
+            break;
         }
         count++;
         p = p->next;
