@@ -7,8 +7,8 @@
 // Helpers
 
 #define test(fn) \
-	puts("... \x1b[33m" # fn "\x1b[0m"); \
-	test_##fn();
+    puts("... \x1b[33m" # fn "\x1b[0m"); \
+    test_##fn();
 
 typedef struct snode node_t;
 typedef struct slist list_t;
@@ -47,7 +47,7 @@ test_list_add_back() {
   assert(strcmp(snode_get_str(b), "b") == 0);
   assert(c == snode_get_next(b));
   assert(NULL == snode_get_next(c));
-  
+
   //slist_destroy calls snode_destroy
   slist_destroy(list);
 }
@@ -75,12 +75,12 @@ test_list_add_front() {
   assert(strcmp(snode_get_str(b), "b") == 0);
   assert(a == snode_get_next(b));
   assert(NULL == snode_get_next(a));
- 
+
   slist_destroy(list);
 }
 
 static void
-test_list_find() { 
+test_list_find() {
   list_t *list = slist_create();
 
   // a b c
