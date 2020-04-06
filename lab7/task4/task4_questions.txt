@@ -1,4 +1,10 @@
 1.What instructions evaluate “a>6”?
+	cmpl $6,-4(%ebp)
+	jle .L2
+
 2.What happens if we delete the “jmp” instruction?
+	if we delete the jmp .L3 instruction it would simply remove the else{} statement.
+
 3.Can you rewrite the condition with “jg” in place of “jle”? Why or why not?
+	No, this would change the conditions for which the if statement would execute 		because of the cmpl.
 
