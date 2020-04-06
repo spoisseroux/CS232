@@ -35,10 +35,141 @@ int msb(int x) {
 	ep=0; // Rightmost bit that might contain most significant 1
 	while(w>1) { //Narrow down to a single bit
 		//TODO: Look at half the range of bits
-		//TODO: create a mask. 
+        int hw = w/2;
+		//TODO: create a mask.
+        int mask = x & 4294901760;
+        //11111111111111110000000000000000;
 		// This mask is all one-bits in the left half of the range
 		printf("M= "); print_binary(mask); printf(" hw=%d ep=%d\n",hw,ep);
-		//TODO: use mask to figure out if the left half of the range has at least one bit   
+		//TODO: use mask to figure out if the left half of the range has at least one bit
+        
+        //bits in left
+        if (mask != x) {
+            //check left 2
+            mask = x & 4278190080;
+            //11111111000000000000000000000000;
+            //bits in left 2
+            if (mask != x) {
+                //check left most
+                mask = x & 4026531840;
+                //1111 0000 0000 0000 0000 0000 0000 0000;
+                //bits in left most
+                if (mask != x) {
+                    
+                    for(int n=31;n>=27;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                }
+
+                
+                //bits in right
+                if (mask == x) {
+                    
+                    for(int n=26;n>=23;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                }
+                
+            //bits in right 2
+            if (mask == x) {
+                //check right 2
+                mask = x & 15728640;
+                //00000000111100000000000000000000;
+                
+                //check left
+                if (mask != x) {
+                    
+                    for(int n=23;n>=19;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                        
+                }
+                //check right
+                if (mask == x) {
+                    
+                    for(int n=19;n>=15;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                    
+                }
+            }
+        }
+        }
+        
+        //bits in right
+        if (mask == x) {
+            //check left 2
+            mask = x & 65280;
+            //00000000000000001111111100000000;
+            //bits in left 2
+            if (mask != x) {
+                //check left most
+                mask = x & 61440;
+                //00000000000000001111000000000000;
+    
+                //bits in left most
+                if (mask != x) {
+                    
+                    for(int n=15;n>=11;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                        
+                }
+                
+                //bits in right
+                if (mask == x) {
+                   
+                    for(int n=11;n>=7;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                        
+                }
+                
+            }
+            
+            //bits in right 2
+            if (mask == x) {
+                //check right 2
+                mask = x & 240;
+                //00000000000000000000000011110000;
+                
+                //check left
+                if (mask != x) {
+                    
+                    for(int n=7;n>=3;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                        
+                }
+                
+                //check right
+                if (mask == x) {
+                    
+                    for(int n=3;n>=0;n--) {
+                        if ((x & (1<<n))!= 0){
+                            ep = n;
+                        }
+                    }
+                }
+            }
+        }
+            
+        
+        
 		//If the left half of the range has a one bit, focus on only the left half
 		//else focus on only the right half
 		//TODO: You have ruled out either the left half of the range or the right half of the range
