@@ -1,3 +1,6 @@
 1.By searching the function name “strcmp” in the assembly text, what instruction calls strcmp?
+	cmpl $0,%ebx
+
 2.Where is the password “secret” stored?
+	Each character of password is stored at 0x73, 0x65, 0x63, 0x72, 0x65, 0x74 and 0x0
 
