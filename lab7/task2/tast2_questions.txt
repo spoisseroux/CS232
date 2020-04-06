@@ -1,8 +1,19 @@
 1.What instruction is “int a, b, c, d;” converted to? 
 
+subl $16,%esp
+
+
 2.Does “int a, b, c, d;” shrink or grow the stack? How many bytes are allocated on stack for a, b, c, and d? Explain them using instruction from question 1.
+
+Int a, b, c, d increases the size of the stack, as the stack grows downwards we must subtract from %esp to grow the stack size. There are 16 bits allocated for a, b, c, and d meaning there are a total of 2 bytes allocated on stack.
+
 
 3.What instruction is “b=2;” converted to? How is the address of variable b formed in the instruction?
 
+b=2; is converted to movl $2,-8(%ebp), the address is formed by going 8 bits deep into %ebp to find the starting address of b.
+
+
 4.Based on the instructions converted from four assignments, can we claim the declaration order determines the allocation order? For instance, a is declared before b, does it mean a is to be allocated before b on stack? Verify your theory by changing the declaration to “int a, c, b, d;”
+
+No, I do not believe we could make this claim as the ints are initialized in one line of assembly code that just allocates 16 bits at the same time to the stack.
 
