@@ -1,60 +1,99 @@
 Table for yi.trace when set index bits =4, block offset bit = 4 using direct map cache:
+------------------------------------------------------------------------------------------------- 
+ trace	|Your analysis(miss/hit, set/index id)			|csim-ref output
+-------------------------------------------------------------------------------------------------    
+ L 10,1	|0x10 = 0b 0001 0000, set Id = 0b0001
+	miss because loading value into cache			|miss	 
+	 
+ M 20,1	|0x20 = 0b 0010 0000, set Id = 0b0010
+	miss because nothing at this ID			  	|miss hit
+	 	 
+ L 22,1	|0x22 = 0b 0010 0010, set Id = 0b0010
+	hit because value matches this ID			|hit	
+ 	 
+ S 18,1	|0x18 = 0b 0001 1000, set Id = 0b0001, hit because
+	0 is valid for ID 0001					|hit
 
-----------------------------------------------------------------
- trace	|Your analysis(miss/hit, set/index id)	|csim-ref output
-----------------------------------------------------------------   
- L 10,1	|					|	 	 
- M 20,1	|					|	 	 
- L 22,1	|					|	 	 
- S 18,1	|	 	 			|
- L 110,1|	 	 			|
- L 210,1|	 	 			|
- M 12,1	|					|	 	 
------------------------------------------------------------------
+ L 110,1|0x110 = 0b 0001 0001 0000, set Id = 0b0001,
+	miss, overwriting value of ID 0001			|miss eviction
+
+ L 210,1|0x210 = 0b 0010 0001 0000, set Id = 0b0010 
+	miss, overwriting value of ID 0001			|miss eviction
+
+ M 12,1	|0x12 = 0b 0001 0010, set Id = 0b0001,
+	miss eviction hit, modifying value of ID 0001		|miss eviction hit	 
+------------------------------------------------------------------------------------------------- 
 
 Table for yi.trace when set index bits =4, block offset bit = 4 using 2 lines per set:
-----------------------------------------------------------------
- trace	|Your analysis(miss/hit, set/index id)	|csim-ref output
----------------------------------------------------------------- 
- L 10,1	|					|	 	 
- M 20,1	|					|	 	 
- L 22,1	|					|	 	 
- S 18,1	|					|	 	 
- L 110,1|					|	 	 
- L 210,1|					|	 	 
- M 12,1	|					|	 	 
-----------------------------------------------------------------
+------------------------------------------------------------------------------------------------- 
+ trace	|Your analysis(miss/hit, set/index id)					|csim-ref output
+------------------------------------------------------------------------------------------------- 
+ L 10,1	|0x10 = 0b 0001 0000, set Id = 0b0001, miss loading into ID		|miss	
+ 	 
+ M 20,1	|0x20 = 0b 0010 0000, set Id = 0b0010, miss nothing in this ID		|miss hit
+	
+ L 22,1	|0x22 = 0b 0010 0010, set Id = 0b0010, hit value matches ID val		|hit
+	 	 
+ S 18,1	|0x18 = 0b 0001 1000, set Id = 0b0001, hit value matches ID val		|hit
+	 	 
+ L 110,1|0x110 = 0b 0001 0001 0000, set Id = 0b0001, miss loading into ID	|miss
+	 	 
+ L 210,1|0x210 = 0b 0010 0001 0000, set Id = 0b0010, miss eviction overwriting 
+	value at ID								|miss eviction
+	
+ M 12,1	|0x12 = 0b 0001 0010, set Id = 0b0001, miss eviction hit modifying
+	value at ID								|miss eviction hit
+------------------------------------------------------------------------------------------------- 
 
 Table for yi.trace when set index bits =4, block offset bit = 2 using direct map cache:
------------------------------------------------------------------
- trace	|Your analysis(miss/hit, set/index id)	|csim-ref output
------------------------------------------------------------------   
- L 10,1	|					|	 	 
- M 20,1	|					|	 	 
- L 22,1	|					|	 	 
- S 18,1	|					|	 	 
- L 110,1|					|	 	 
- L 210,1|					|	 	 
- M 12,1	|					|
------------------------------------------------------------------	 	 
+------------------------------------------------------------------------------------------------- 
+ trace	|Your analysis(miss/hit, set/index id)					|csim-ref output
+-------------------------------------------------------------------------------------------------  
+ L 10,1	|0x10 = 0b 0001 0000, ID = 0b0100, miss loading into cache		|miss 
+	 	 
+ M 20,1	|0x20 = 0b 0010 0000, ID = 0b1000, miss no value assigned at ID		|miss hit 
+	
+ L 22,1	|0x22 = 0b 0010 0010, ID = 0b1000, hit matches prev assigned at ID	|hit	
+ 
+ S 18,1	|0x18 = 0b 0001 1000, ID = 0b0110, miss nothing at this ID		|miss	 
+	 
+ L 110,1|0x110 = 0b 0001 0001 0000, ID = 0b0100, miss eviction overwriting
+	value at this ID							|miss eviction
+	 
+ L 210,1|0x210 = 0b 0010 0001 0000, ID = 0b0100, miss eviction overwriting 
+	value at this ID							|miss eviction	
+ 
+ M 12,1	|0x12 = 0b 0001 0010, ID = 0b0100, miss eviction overwriting
+	value at this ID							|miss eviction hit
+
+------------------------------------------------------------------------------------------------- 
+	 	 
 Table for dave.trace when set index bits =4, block offset bit = 4 using direct map cache:
------------------------------------------------------------------
- trace	|Your analysis(miss/hit, set/index id)	|csim-ref output
------------------------------------------------------------------   
- L 10,4	|					|	 	 
- S 18,4	|					|	 	 
- L 20,4	|					|	 	 
- S 28,4	|					|	 	 
- S 50,4	|					|	 	 
------------------------------------------------------------------
+------------------------------------------------------------------------------------------------- 
+ trace	|Your analysis(miss/hit, set/index id)				|csim-ref output
+-------------------------------------------------------------------------------------------------    
+ L 10,4	|0x10 = 0b 0001 0000, ID = 0b0001 miss loading into cache	|miss
+	 
+ S 18,4	|0x18 = 0b 0001 1000, ID = 0b0001 hit value matches ID value	|hit	 
+	
+ L 20,4	|0x20 = 0b 0010 0000, ID = 0b0010 miss loading into ID		|miss	 
+	 
+ S 28,4	|0x28 = 0b 0010 1000, ID = 0b0010 hit value matches ID value	|hit	
+ 	 
+ S 50,4	|0x50 = 0b 0101 0000, ID = 0b0101 miss nothing stored in ID	|miss	 	 
+-------------------------------------------------------------------------------------------------
 
 Table for dave.trace when set index bits =4, block offset bit = 2 using direct map cache:
------------------------------------------------------------------
- trace	|Your analysis(miss/hit, set/index id)	|csim-ref output
------------------------------------------------------------------   
- L 10,4	|					|	 	 
- S 18,4	|					|	 	 
- L 20,4	|					|	 	 
- S 28,4	|					|	 	 
- S 50,4	|					|
-----------------------------------------------------------------	 	 
+-------------------------------------------------------------------------------------------------
+ trace	|Your analysis(miss/hit, set/index id)					|csim-ref output
+------------------------------------------------------------------------------------------------- 
+ L 10,4	|0x10 = 0b 0001 0000, ID = 0b0100 miss loading into ID			|miss	 
+	 
+ S 18,4	|0x18 = 0b 0001 1000, ID = 0b0110 miss no value in ID			|miss	
+ 	 
+ L 20,4	|0x20 = 0b 0010 0000, ID = 0b1000 miss loading into ID			|miss
+	 	 
+ S 28,4	|0x28 = 0b 0010 1000, ID = 0b1010 miss nothing in this ID		|miss
+	 	 
+ S 50,4	|0x50 = 0b 0101 0000, ID = 0b0100 miss eviction overwriting val in ID	|miss eviction
+------------------------------------------------------------------------------------------------- 	 	 
