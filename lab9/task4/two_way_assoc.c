@@ -35,18 +35,18 @@ int main( )
         i = addr & 1; //0 or 1 to choose line
         mruUpdate(i);
         j = (addr >> 2) & 3; //00 01 10 or 11 to choose col
-        t = addr | 0x1f;
-        if (tag[j][i] == t) {
+        t = addr & 31;
+        if (tag[i][j] == t) {
             hits += 1;
             printf("Hit%d ", i);
         } else {
             /* allocate entry */
             printf("Miss ");
-            tag[j][i] = t;
+            tag[i][j] = t;
         }
         for (i = 0; i < 2; i++){
             for (int j = 0; j < 4; j++) {
-                printf("0x%08x ", tag[j][i]);
+                printf("0x%08x ", tag[i][j]);
             }
         }
         for (i = 0; i < 4; i++) {
