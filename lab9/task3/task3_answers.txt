@@ -1,3 +1,11 @@
 #1: Explain the newly-added function mruUpdate(), briefly outlining its purpose, how it works, and why we would want or need such a function in our fully-associative cache simulator.
 
+mruUpdate() basically is modeling a cache, kind of like when we model the cache on paper and update values in the table based on the functions called.
+So, based on what address is passed into the script the mruUpdate() will update the cache model (tags and indexes) appropriately. This is great for accurately tracking the cache.
+
+
 #2: Compile and execute the fully-associative cache simulator in the task. Report the final number of hits and accesses output by the code. Based on the pattern of cache hits, estimate the hit rate of the given trace in the steady state (once the compulsory misses are accounted for).
+
+Final : Hits = 76, Accesses = 103, Hit Ratio = 0.737864
+
+Account for the compulsory misses the Hit Ratio becomes 1! (100%)
