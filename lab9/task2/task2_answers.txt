@@ -1,5 +1,16 @@
 #1: What function does the line i = (addr >> 2) & 7; serve in the simulation?
+Sets line I to the value of addr bit-shifted right twice anded with 7.
+
+Here 2 represents the offset so it bit shifts right to access the index values.
+This binary value is AND with 7 which is 0b111 suggest that set index bits = 3.
+
 
 #2: Compile and execute the direct-mapped cache simulator given in the task. Report the final number of hits and accesses output by the code. Also, based on the pattern of cache hits, estimate the hit rate of the given trace in the steady state (once the compulsory misses are accounted for).
 
+Final : Hits = 68, Accesses = 103, Hit Ratio = 0.660194
+Accounting for the compulsory misses the hit ratio comes closer to 0.90
+
+
 #3: Our implementation of a simple, direct-mapped cache simulator only uses and maintains the tags in its simulation. Why is this enough to get a working example of cache behavior?
+
+//come back here
