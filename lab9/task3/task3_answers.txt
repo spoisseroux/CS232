@@ -2,6 +2,8 @@
 
 mruUpdate() basically is modeling a fully associative cache.
 So, based on what address is passed into the script the mruUpdate() will update the cache model (tags and indexes) appropriately.
+mruUpdate() takes the index found from main() and compares it against the indexes already in the cache
+If the index is found or not found the loop breaks and goes to the while loops which moves all the earlier refs one later to allow room to put the new index in the mru[]
 
 
 #2: Compile and execute the fully-associative cache simulator in the task. Report the final number of hits and accesses output by the code. Based on the pattern of cache hits, estimate the hit rate of the given trace in the steady state (once the compulsory misses are accounted for).
