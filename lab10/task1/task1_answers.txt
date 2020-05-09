@@ -1,16 +1,40 @@
 1. Which order performs the worst? Why? Please write down the latency captured by time for the worst order.
+
+matrix_mul_jki performs the worst, giving time results of 
+Real 5m16.432s
+User 5m12.272s
+This performs worse because it finds the fixed variable in between finding the incremental variables
+
+
 2. Which order performs the best? Why? Please write down the latency captured by time for the best best.
+
+matrix_mul_ikj performs he best, giving time results of 
+Real 0m3.410s
+User 0m3.373s
+This performs best because finds the fixed variable before the incremental ones
+
+
 3. Does the way we stride through the matrices with respect to the innermost loop affect performance? 
+Assuming the matrices are n*n it should not.
+
+
+
 4. Please complete the following table using valgrind to measure D1 miss rate with regard to different matrix size.
 ________________________________________________________________________________
 |Cache miss w.r.t matrix size	|1024	|512	|256	|128	|64	|32	|
 |-------------------------------------------------------------------------------|
-|matrix_mult_ijk		|	|	|	|	|	|	|
+|matrix_mult_ijk		|33.4%	|33.4%	|33.4%	|32.7%	|1.8%	|4.1%
 |-------------------------------------------------------------------------------|
-|matrix_mult_jki		|	|	|	|	|	|	|
+|matrix_mult_jki		|100.0%	|99.9%	|99.7%	|98.4%	|3.5%	|2.8%	|
 |-------------------------------------------------------------------------------|
-|matrix_mult_ikj		|	|	|	|	|	|	|
+|matrix_mult_ikj		|6.3%	|6.3%	|6.3%	|6.4%	|1.4%	|3.7%	|
 |_______________________________|_______|_______|_______|_______|_______|_______|
+
 	
 5. Based on the table of q4, does the size of the matrix affect performance? Why? Have you noticed the cache miss rate dramatically changes upon a certain dim size? What is the size of the matrix when it happens? and why would it happen? 
+
+Based on q4, yes the size of the matrix affects performance. I believe this is because at lower sizes there is less room for error in computational maths / fewer computations. Yes, I have noticed the miss rate dramatically change upon a certain DIM size, it is at the DIM size 32 where we see a major drop. I think this again is because of the lower frequency of computation errors and less computations in general. 
+
+
+
 
