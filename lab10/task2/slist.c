@@ -1,6 +1,7 @@
 #include "snode.h"
 #define _GNU_SOURCE
 #include "slist.h"
+#include "frame.h"
 
 /**
  * Allocates new slist dynamically.
@@ -9,9 +10,10 @@
  */
 struct slist *slist_create() {
     //init
-
-    struct snode* head = snode_create("front");
-    struct snode* tail = snode_create("back");
+    struct frame_t * front = (frame_t *) malloc(sizeof(frame_t));
+    struct frame_t * back = (frame_t *) malloc(sizeof(frame_t));
+    struct snode* head = snode_create(front);
+    struct snode* tail = snode_create(back);
     struct slist* newList = (struct slist*)malloc(sizeof(struct slist*));
 
     newList->front = head;
@@ -29,27 +31,27 @@ struct slist *slist_create() {
 
 
 
-struct snode* slist_add_back_int(struct slist *l, int i) {
-    //init OK
-    struct snode * p = l->front;
-    struct snode* addBack = snode_create(&i);
-
-
-    while(p->next != l->back) {
-        //puts("were in while");
-        p = p->next;
-    }
-
-    if (p->next == l->back) {
-        //puts("were in if");
-        p->next = addBack;
-        addBack->next = l->back;
-    }
-
-    //printf("%d \n", *((int*)addBack->data));
-
-    return addBack;
-}
+// struct snode* slist_add_back_int(struct slist *l, int i) {
+//     //init OK
+//     struct snode * p = l->front;
+//     struct snode* addBack = snode_create(&i);
+//
+//
+//     while(p->next != l->back) {
+//         //puts("were in while");
+//         p = p->next;
+//     }
+//
+//     if (p->next == l->back) {
+//         //puts("were in if");
+//         p->next = addBack;
+//         addBack->next = l->back;
+//     }
+//
+//     //printf("%d \n", *((int*)addBack->data));
+//
+//     return addBack;
+// }
 
 
 
@@ -61,7 +63,7 @@ struct snode* slist_add_back_int(struct slist *l, int i) {
  * @param str pointer to a C string to store in new list node
  * returns a pointer to the newly added node
  */
-struct snode* slist_add_back(struct slist *l, void *s){
+struct snode* slist_add_back(struct slist *l, frame_t *s){
 
     //init OK
     struct snode * p = l->front;
@@ -118,20 +120,20 @@ struct snode* slist_add_front(struct slist *l, void *s){
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
  */
-struct snode* slist_find(struct slist *l, void *s){
-    struct snode * p = l->front;
-    p = p->next;
-
-    while(strcmp(p->data, s) != 0) {
-        if (p == l->back) {
-            return NULL;
-        }
-        p = p->next;
-    }
-
-    return p;
-
-};
+// struct snode* slist_find(struct slist *l, void *s){
+//     struct snode * p = l->front;
+//     p = p->next;
+//
+//     while(strcmp(p->data, s) != 0) {
+//         if (p == l->back) {
+//             return NULL;
+//         }
+//         p = p->next;
+//     }
+//
+//     return p;
+//
+// };
 
 
 
@@ -232,31 +234,31 @@ uint32_t slist_length(struct slist *l){
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
  */
-struct snode* slist_delete(struct slist *l, void *s){
-    struct snode * p = l->front;
-    p = p->next;
-    int count = 0;
-
-    while(strcmp(p->data, s) != 0) {
-        if (p == l->back) {
-            return NULL;
-        }
-        count++;
-        p = p->next;
-    }
-
-    p = l->front;
-    for(int i=0; i<count; i++) {
-        p = p->next;
-    }
-
-    struct snode * toDel = p->next;
-    p->next = p->next->next;
-
-    toDel->next = NULL;
-    free(toDel->data);
-    free(toDel);
-
-
-    return NULL;
-};
+// struct snode* slist_delete(struct slist *l, void *s){
+//     struct snode * p = l->front;
+//     p = p->next;
+//     int count = 0;
+//
+//     while(strcmp(p->data, s) != 0) {
+//         if (p == l->back) {
+//             return NULL;
+//         }
+//         count++;
+//         p = p->next;
+//     }
+//
+//     p = l->front;
+//     for(int i=0; i<count; i++) {
+//         p = p->next;
+//     }
+//
+//     struct snode * toDel = p->next;
+//     p->next = p->next->next;
+//
+//     toDel->next = NULL;
+//     free(toDel->data);
+//     free(toDel);
+//
+//
+//     return NULL;
+// };

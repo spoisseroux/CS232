@@ -15,27 +15,31 @@
 #define _GNU_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
+
 static void load_frame(frame_t *f, char *path){
 	// TODO:your code here
 	// path is the pathname to an ascii file, we have to open the ascii file, and read the content
 	// in line by line and store it in the frame->content
 	// here is an example of reading line-by-line from path
   FILE * fp;
-     char * line = NULL;
-     size_t len = 0;
-     ssize_t read;
+  char * line = malloc(10000);
+  size_t len = 0;
+  size_t read;
+  f->content = malloc(10000);
 
      fp = fopen(path, "r");
-     if (fp == NULL)
+     if (fp == NULL) {
+          puts("file not found...");
          exit(EXIT_FAILURE);
+      }
 
      while ((read = getline(&line, &len, fp)) != -1) {
          // printf("Retrieved line of length %zu:\n", read);
-         // printf("%s", line);
-         f->content = line;
+         //printf("%s", line);
+         strcat(f->content, line);
      }
 
-     f->rep_counter++;
+     f->rep_counter += 1;
      fclose(fp);
      return;
 

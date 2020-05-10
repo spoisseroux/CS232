@@ -59,7 +59,7 @@ struct slist *slist_create();
 
 struct snode* slist_add_back_int(struct slist *l, int i);
 
-struct snode* slist_add_back(struct slist *l, void *s);
+struct snode* slist_add_back(struct slist *l, frame_t *s);
 
 /**
  * Inserts new node in slist before the first node.

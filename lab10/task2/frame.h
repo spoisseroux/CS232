@@ -8,6 +8,7 @@
 #ifndef FRAME_H_232
 #define _GNU_SOURCE
 #define FRAME_H_232
+#include <string.h>
 typedef struct frame_t {
 	int rep_counter;
 	int id;

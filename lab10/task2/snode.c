@@ -1,28 +1,24 @@
 #include "snode.h"
-typedef struct snode node_t;
+#include "frame.h"
 
-node_t* snode_create(void *s)
+struct snode* snode_create(frame_t *s)
 {
-    
+
  //TODO: implement snode_create, change the prototype to
  //match with header file
     //allocate mem for snode struct (strlen+1)
     //copy contents of parameter s to new alloc mem
     //return node address;
-    
-    node_t *new = (node_t*)malloc(sizeof(node_t));
-    new->data = malloc(10*sizeof(s));
-    
-    for (int i = 0; i<(10*sizeof(s)); i++) {
-        *(char*)(new->data + i) = *(char*)(s + i);
-    }
-    
+
+    struct snode *new = malloc(sizeof(struct snode*));
+    new->data = (void*) malloc(sizeof(frame_t));
+    new->data = s;
     new->next = NULL;
-    
+
     return &(*new);
 }
 
-void snode_destroy(node_t * s)
+void snode_destroy(struct snode * s)
 {
 
  //TODO: implement snode_destroy
@@ -30,6 +26,5 @@ void snode_destroy(node_t * s)
     //free mem from struct
     free(s->data);
     free(s);
- 
+
 };
- 

@@ -39,6 +39,7 @@ static int get_num_frames(char *path) {
 
 asciimation_t * asciimation_new(char * path, int fps){
 	asciimation_t * ascm = (asciimation_t *) malloc(sizeof(asciimation_t));
+	ascm->frames_per_second = fps;
 	struct slist*frame_list;
 	if(!ascm) {
 		perror("failed allocation\n");
@@ -63,7 +64,7 @@ asciimation_t * asciimation_new(char * path, int fps){
 		//if your path is ./data/a, and i=0, then asciipath = ./data/a/1, exactly what we want to load
 		struct frame_t * aframe = frame_new(asciipath,i);
 		//TODO:add aframe to ascm->frames;
-        slist_add_back(frame_list, aframe);
+    slist_add_back(ascm->frames, aframe);
 	}
 
 	return ascm;
@@ -83,22 +84,39 @@ void asciimation_delete(asciimation_t * ascm){
 void asciimation_play(asciimation_t * ascm){
 	//TODO:your code here
 	//loop through the list of frames and print out each frame, ? is also to be done by you
+	system("@cls||clear");
   int n;
-	struct slist* frame_list = ascm->frames;
-	n = slist_length(frame_list);
-	struct snode * node = frame_list->front->next;
+	n = slist_length(ascm->frames);
+	struct snode * node = ascm->frames->front->next;
+	//int sleepTime = (1/ascm->frames_per_second)*1000000;
 
 	for(int i=0; i<n; i++) {
-			struct frame_t * f = node->data;
-			char* text = frame_get_content(f);
-			printf("%s", text);
-      sleep(ascm->frames_per_second);
+			printf("%s", frame_get_content(node->data));
+      usleep(200000);
       system("@cls||clear");
 			node = node->next;
 	}
 }
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
+	system("@cls||clear");
+  int n;
+	int x;
+	n = slist_length(ascm->frames);
+	x = n;
+	struct snode * node = ascm->frames->front->next;
+	//int sleepTime = (1/ascm->frames_per_second)*1000000;
+
+	for(int i=0; i<n; i++) {
+		for (int j=0; j<x; j++) {
+			node = node->next;
+		}
+			printf("%s", frame_get_content(node->data));
+      usleep(200000);
+      system("@cls||clear");
+			node = ascm->frames->front->next;
+			x--;
+	}
 
 	//same logic as above, only difference is loop through the list backward.
 }
