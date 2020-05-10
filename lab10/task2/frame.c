@@ -12,6 +12,7 @@
 * 04/29/2020, By Jun Yuan-Murray, modified for CS232, Pace University, NY
 ******************************************************/
 #include "frame.h"
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
 static void load_frame(frame_t *f, char *path){
@@ -19,20 +20,25 @@ static void load_frame(frame_t *f, char *path){
 	// path is the pathname to an ascii file, we have to open the ascii file, and read the content
 	// in line by line and store it in the frame->content
 	// here is an example of reading line-by-line from path
-    FILE * fp;
-    char * line = NULL;
-	fp = fopen(path, "r");
-    	if (fp == NULL)
-        	exit(EXIT_FAILURE);
+  FILE * fp;
+     char * line = NULL;
+     size_t len = 0;
+     ssize_t read;
 
-    	while ((read = getline(&line, &len, fp)) != -1) {
-//        	printf("Retrieved line of length %zu:\n", read);
-//        	printf("%s", line); //this line is NOT your code
-            f->content = read;
-    	}
-	fclose(fp);
-    f->rep_counter++
-	return;
+     fp = fopen(path, "r");
+     if (fp == NULL)
+         exit(EXIT_FAILURE);
+
+     while ((read = getline(&line, &len, fp)) != -1) {
+         // printf("Retrieved line of length %zu:\n", read);
+         // printf("%s", line);
+         f->content = line;
+     }
+
+     f->rep_counter++;
+     fclose(fp);
+     return;
+
 }
 
 frame_t * frame_new(char *pathname, int id) {
@@ -49,8 +55,6 @@ frame_t * frame_new(char *pathname, int id) {
 
 void frame_delete(frame_t * f) {
 	//TODO: before we free f what inside f must be free-ed first?
-    free(f->rep_counter);
-    free(f->id);
     free(f->content);
     free(f);
 }
@@ -64,4 +68,3 @@ int frame_get_rep_counter(frame_t * f){
 int frame_get_id(frame_t *f){
 	return f-> id;
 }
-

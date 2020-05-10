@@ -14,6 +14,7 @@
 
 #include <assert.h>
 #include "asciimation.h"
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 void get_valid_option(int *n) {
@@ -27,7 +28,7 @@ void get_valid_option(int *n) {
 
 int main() {
 	int option;
-		
+
 	char path[4096];
 	int fps;
 
@@ -58,7 +59,7 @@ int main() {
 			break;
 		}
 		case 2: {
-			asciimation_reverse(ascm);	
+			asciimation_reverse(ascm);
 			break;
 		}
 		case 3: {
@@ -71,5 +72,5 @@ int main() {
 		printf("[press any key to continue]\n");
 		system("@cls||clear");
 	} while (1);
-	
+
 }

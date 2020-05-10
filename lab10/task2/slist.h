@@ -34,6 +34,7 @@
 #define _slist_H_
 
 #include <stdint.h>
+#define _GNU_SOURCE
 #include "snode.h"
 
 struct slist {
@@ -43,12 +44,12 @@ struct slist {
 
 /**
  * Allocates new slist dynamically.
- * 
+ *
  * @return pointer to the list
  */
 struct slist *slist_create();
 
-/** 
+/**
  * Inserts new node in slist after the last node.
  *
  * @param l pointer to the list (non-NULL)
@@ -60,7 +61,7 @@ struct snode* slist_add_back_int(struct slist *l, int i);
 
 struct snode* slist_add_back(struct slist *l, void *s);
 
-/** 
+/**
  * Inserts new node in slist before the first node.
  *
  * @param l pointer to the list (non-NULL)
@@ -71,7 +72,7 @@ struct snode* slist_add_front(struct slist *l, void *s);
 
 /**
  * Returns the first snode with the given string.
- *  
+ *
  * @param l pointer to the list (non-NULL)
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match
@@ -100,7 +101,7 @@ void slist_traverse(struct slist *l);
 uint32_t slist_length(struct slist *l);
 /**
  * Deletes the first snode with the given string.
- *  
+ *
  * @param l pointer to the list (non-NULL)
  * @parap str pointer to a string
  * @return struct snode* or NULL if no match

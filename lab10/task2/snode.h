@@ -1,4 +1,5 @@
 #ifndef _snode_H_
+#define _GNU_SOURCE
 #define _snode_H_
 
 #include <stdio.h>
@@ -16,5 +17,5 @@ struct snode {
 //length
 struct snode* snode_create(void *s);
 void snode_destroy(struct snode * s);
- 
+
 #endif

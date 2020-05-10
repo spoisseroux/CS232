@@ -6,6 +6,7 @@
 ******************************************************/
 //This is the header guide. We are not encapsulating the struct
 #ifndef FRAME_H_232
+#define _GNU_SOURCE
 #define FRAME_H_232
 typedef struct frame_t {
 	int rep_counter;

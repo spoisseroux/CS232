@@ -6,14 +6,15 @@
 ******************************************************/
 #ifndef ASCIIMATION_H_232
 #define ASCIIMATION_H_232
+#define _GNU_SOURCE
 #include "slist.h"
 #include "frame.h"
 typedef struct asciimation_t {
-	struct slist_t * frames; //frames is a list of frame pointers. each points to a frame
-	int frames_per_second;//how fast do you play the asciimation?	
+	struct slist * frames; //frames is a list of frame pointers. each points to a frame
+	int frames_per_second;//how fast do you play the asciimation?
 } asciimation_t;
 
-		
+
 asciimation_t * asciimation_new(char *, int);
 void asciimation_delete(asciimation_t *);
 void asciimation_play(asciimation_t *);

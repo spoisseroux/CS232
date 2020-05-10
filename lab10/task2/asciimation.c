@@ -13,6 +13,7 @@
 ******************************************************/
 #include "asciimation.h"
 #include <dirent.h>
+#define _GNU_SOURCE
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +27,7 @@ static int get_num_frames(char *path) {
 	int n = 0;
 	while((pdir = readdir(dir))) {
 		if(strcmp(pdir->d_name, ".") != 0 && strcmp(pdir->d_name, "..") != 0) {
-		//printf("%s", pdir->d_name);
+		printf("%s", pdir->d_name);
 		//debugging printf, you can use this line to print out ascii file names.
 		n++;
 		}
@@ -38,6 +39,7 @@ static int get_num_frames(char *path) {
 
 asciimation_t * asciimation_new(char * path, int fps){
 	asciimation_t * ascm = (asciimation_t *) malloc(sizeof(asciimation_t));
+	struct slist*frame_list;
 	if(!ascm) {
 		perror("failed allocation\n");
 		return 0;
@@ -45,23 +47,25 @@ asciimation_t * asciimation_new(char * path, int fps){
 	//figure out how many frames are in the dir?
 	int n = get_num_frames(path);
 	//create a list of frames
-    ascm->frames = slist_create();
-	// we know the number of frames, we can simply reconstruct the name of each ascii file, and construct a frame obj for 
+	frame_list = slist_create();
+  ascm->frames = frame_list;
+
+	// we know the number of frames, we can simply reconstruct the name of each ascii file, and construct a frame obj for
 	// each ascii file. Must implement frame_new first
 	for(int i=0; i<n; i++) {
 		char asciipath[4096];
 		strcpy(asciipath, path);
 		int len = strlen(asciipath);
-		if(asciipath[len-1] != '/') 
+		if(asciipath[len-1] != '/')
 			sprintf(asciipath+len, "/%d", i+1);
-		else	
+		else
 			sprintf(asciipath+len, "%d", i+1);
 		//if your path is ./data/a, and i=0, then asciipath = ./data/a/1, exactly what we want to load
 		struct frame_t * aframe = frame_new(asciipath,i);
 		//TODO:add aframe to ascm->frames;
-        slist_add_back(ascm->frames, aframe);
+        slist_add_back(frame_list, aframe);
 	}
-	
+
 	return ascm;
 }
 
@@ -79,25 +83,22 @@ void asciimation_delete(asciimation_t * ascm){
 void asciimation_play(asciimation_t * ascm){
 	//TODO:your code here
 	//loop through the list of frames and print out each frame, ? is also to be done by you
-    int n = slist_traverse(ascm->frames);
-    
+  int n;
+	struct slist* frame_list = ascm->frames;
+	n = slist_length(frame_list);
+	struct snode * node = frame_list->front->next;
+
 	for(int i=0; i<n; i++) {
-		printf(n);
-        sleep(ascm->frames_per_second * ascm->frames->rep_counter);
-        system(“clear”);
+			struct frame_t * f = node->data;
+			char* text = frame_get_content(f);
+			printf("%s", text);
+      sleep(ascm->frames_per_second);
+      system("@cls||clear");
+			node = node->next;
 	}
 }
 void asciimation_reverse(asciimation_t * ascm){
 	//TODO:Your code here
-    
-    int n = slist_traverse(ascm->frames);
-    
-    for(int i=n; i>0; i--) {
-        printf(n);
-        sleep(ascm->frames_per_second * ascm->frames->rep_counter);
-        system(“clear”);
-    }
+
 	//same logic as above, only difference is loop through the list backward.
 }
-
-
