@@ -1,19 +1,12 @@
 X = 5
 Y = 9
 
-Convert X and Y to 16-bit binaries
-----------------------------------------
-|	  | output_X	| output_Y	|	
------------------------------------------
-|after	zx|		|  		|
-|---------|-------------|---------------|
-|after  nx|             |               |
-|---------|-------------|---------------|
-|after  zy|             |              	|
-|-----------------------|---------------|
-|after  ny|             |               |
-|---------------------------------------|
-|after   f|                             |
-|---------------------------------------|
-|after  no|                             |
------------------------------------------ 
+x = 0b 0000 0000 0000 0101
+y = 0b 0000 0000 0000 1001
+
+output of selector controlled by nx: 0b 1111 1111 1111 1010
+output of selector controlled by zx: 0b 0000 0000 0000 0101
+output of selector controlled by ny: 0b 1111 1111 1111 0110
+output of selector controlled by zy: 0b 0000 0000 0000 1001
+output of selector controlled by f:  0b 1111 1111 1111 0010
+output of selector controlled by no: 0b 0000 0000 0000 1101
